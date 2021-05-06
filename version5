@@ -1,0 +1,146 @@
+package TrabajoFinal;
+
+import java.util.Scanner;
+
+
+public class trabajoFinal {
+    public static void main(String[] args) {
+
+        String[] roles = {"Desarrollador Senior", "Desarrollador Intermedio", "Desarrollador Junior", "Liderazgo",
+                "Personal de Apoyo"};
+
+        Scanner ingresoDatos = new Scanner(System.in);
+
+        System.out.println("Bienvenidos a TrueLogic!");
+        System.out.println("Estamos muy contentos de que hayas decidido trabajar con nosotros, ");
+        System.out.println("Tenemos el mejor talente en el mercado. Entre nuestros principales roles están: ");
+        System.out.println("   (1).- Personal de Desarrollo – Nivel Senior");
+        System.out.println("   (2).- Personal de Desarrollo – Nivel Intermedio");
+        System.out.println("   (3).- Personal de Desarrollo – Nivel Junior");
+        System.out.println("   (4).- Personal de Liderazgo");
+        System.out.println("   (5).- Personal de Apoyo");
+        System.out.println("Para poder realizar tu cotización, por favor ingresa los datos requeridos");
+
+        int rolRequerido = pedirRol();
+        int cantidadPersonal = pedirCantidadPersonal();
+
+        //Contiene el precio con descuento por tamaño de equipo
+        double precioDescontado1 = descuentoTamañoEquipo(rolRequerido, cantidadPersonal);
+
+        String masPersonal = preguntarMas();
+
+        //Actualiza la variable con cuantos datos ingrese el usuario
+        precioDescontado1 = agregarPersonal(masPersonal, precioDescontado1);
+
+        System.out.print("Indique el tiempo en meses de la duración del proyecto: ");
+
+        int tiempoDuracion = ingresoDatos.nextInt();
+
+        //Contiene el precio incluyendo el descuento por tiempo de duración del proyecto
+        double precioDescontado2 = descuentoDuracionProyecto(tiempoDuracion, precioDescontado1);
+
+        //System.out.println(precioDescontado2);
+
+        System.out.println("Ingresa tu tipo de pago: ");
+        System.out.println("   (1).- Tarjeta de Crédito");
+        System.out.println("   (2).- Al contado");
+        System.out.print("Tu respuesta: ");
+
+        int tipoPago = ingresoDatos.nextInt();
+
+        double precioDecontado3 = descuentoTipoPago(tipoPago, precioDescontado2);
+
+        //System.out.println(precioDecontado3);
+
+    }
+
+    public static double descuentoTamañoEquipo (int rolRequerido, int cantidadPersonal) {
+        double costoRol = 0;
+        int[] costoRoles = {1500, 1200, 1000, 2000, 1000};
+
+        if (cantidadPersonal < 5) {
+            costoRol = costoRoles[rolRequerido - 1]*cantidadPersonal;
+        } else if (cantidadPersonal >= 5  && cantidadPersonal <10 ) {
+            int[] costoRoles2 = {1200, 900, 700,2000, 800};
+            costoRol = costoRoles2[rolRequerido - 1]*cantidadPersonal;
+        } else if (cantidadPersonal >= 10) {
+            int [] costoRoles3 = {1000, 800, 600, 2000, 700};
+            costoRol = costoRoles3[rolRequerido - 1]*cantidadPersonal;
+        }
+        return costoRol;
+    }
+
+    public static int pedirRol () {
+        Scanner ingresoDatos = new Scanner(System.in);
+
+        System.out.print("¿Qué tipo de personal desea contratar? (Ingrese un valor del 1 al 5): ");
+
+        int rolRequerido = ingresoDatos.nextInt();
+
+
+        return rolRequerido;
+
+    }
+
+    public static int pedirCantidadPersonal () {
+        Scanner ingresoDatos = new Scanner(System.in);
+
+        System.out.print("¿Cuánto personal requiere?: ");
+
+        int cantidadPersonal = ingresoDatos.nextInt();
+
+        return  cantidadPersonal;
+    }
+
+    public static String preguntarMas () {
+        System.out.print("¿Desea contratar algún otro tipo de personal?: ");
+        Scanner respuestasEscritas = new Scanner(System.in);
+        String masPersonal = respuestasEscritas.nextLine();
+
+        return masPersonal;
+    }
+
+    public static double agregarPersonal(String masPersonal, double precioDescontado1) {
+        double precio = 0;
+        double preciosSumados = precioDescontado1;
+        while (masPersonal.equals("Si")) {
+                int rolRequerido = pedirRol();
+                int cantidadPersonal = pedirCantidadPersonal();
+                System.out.println(descuentoTamañoEquipo(rolRequerido, cantidadPersonal));
+                preciosSumados += descuentoTamañoEquipo(rolRequerido, cantidadPersonal);
+                masPersonal = preguntarMas();
+        }
+
+         if (masPersonal.equals("No")){
+            precio = preciosSumados;
+        }
+
+        return  precio;
+    }
+
+    public static double descuentoDuracionProyecto (int tiempoDuracion, double precioDescontado1) {
+        double precio = 0;
+        double precioInicial = precioDescontado1;
+        int numeroDescuentos = tiempoDuracion/6; // hacemos esto para no tener que incluir un IF en la iteración
+        for (int i = 1; i <= numeroDescuentos; i++) {
+            precio = precioDescontado1 * 0.97;
+            precioDescontado1 = precio;
+            if (precioInicial - precio > 1500) {
+                precio = precioInicial - 1500;
+                break;
+            }
+        }
+        return  precio;
+    }
+
+    public static double descuentoTipoPago (int tipoPago, double precioDescontado2){
+        double precio = 0;
+        if (tipoPago == 2) {
+            precio = precioDescontado2*0.97;
+        } else {
+            precio = precioDescontado2;
+        }
+        return  precio;
+    }
+
+}
