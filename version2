@@ -1,0 +1,90 @@
+package CLASEnumero2;
+
+import java.util.Scanner;
+public class truelogic {
+
+        public static void main(String[] args) {
+
+            int cantidadEmpleados,resp;
+            boolean respuesta1;
+            String TipoEmpleado;
+            double CostoEmpleados=0,costo=0,acumulado=0;
+            int tiempoContrato;
+            char tipoPago;
+
+            System.out.println("Bienvenido a la empresa TrueLogic");
+
+            do {
+                acumulado+=costo;
+
+                Scanner sc = new Scanner(System.in);
+                System.out.println("Indique el tipo de empleado que requiere, tenemos Senior, Intermedio, Junior, Lider y Apoyo:");
+                TipoEmpleado = sc.nextLine();
+                System.out.println("Indique la cantidad de empleados tipo " + TipoEmpleado);
+                cantidadEmpleados = sc.nextInt();
+
+                CostoEmpleados = establecerCostoEmpleados(TipoEmpleado, cantidadEmpleados);
+                System.out.println("El costo por " + cantidadEmpleados + " " + TipoEmpleado + "s " + " es " + CostoEmpleados);
+                System.out.println("desea agregar mas empleados al proyecto?");
+                resp = sc.nextInt();
+                costo += CostoEmpleados;
+
+
+               }while(resp==1);
+               System.out.println("hasta luego el costo Total por el personal: "+costo);
+        }
+    public  static double  establecerCostoEmpleados (String Tipo,int cantidad) {
+
+        double costo=0 ;
+
+        String mensaje=" ";
+        if (Tipo.equalsIgnoreCase("Senior")) {
+            if (cantidad <= 4 & cantidad > 1){
+
+                costo = cantidad * 1500;
+            } else if (cantidad >= 5 & cantidad < 9) {
+                costo = cantidad * 1200;
+            } else {
+                costo = cantidad * 1000;
+            }
+        } else if (Tipo.equalsIgnoreCase("Intermedio")) {
+            if (cantidad <= 4 & cantidad > 1){
+
+                costo = cantidad * 1200;
+            } else if (cantidad >= 5 & cantidad < 9) {
+                costo = cantidad * 900;
+            } else {
+                costo = cantidad * 800;
+            }
+
+        } else if (Tipo.equalsIgnoreCase("Junior")) {
+            if (cantidad <= 4 & cantidad > 1){
+
+                costo = cantidad * 1000;
+            } else if (cantidad >= 5 & cantidad < 9) {
+                costo = cantidad * 700;
+            } else {
+                costo = cantidad * 600;
+            }
+        } else if (Tipo.equalsIgnoreCase("Lider")) {
+            if (cantidad <= 4 & cantidad > 1){
+
+                costo = cantidad * 2000;
+            } else if (cantidad > 4 ){
+                mensaje = "El limite maximo de lideres son 4";
+            }
+        } else if (Tipo.equalsIgnoreCase("Apoyo")) {
+            if (cantidad <= 4 & cantidad > 1){
+
+                costo = cantidad * 1000;
+            } else if (cantidad >= 5 & cantidad < 9) {
+                costo = cantidad * 800;
+            } else {
+                costo = cantidad * 700;
+            }
+        } else {System.out.println("Por favor ingrese un tipo de Personal valido");}
+
+        return costo;
+        }
+
+    }
