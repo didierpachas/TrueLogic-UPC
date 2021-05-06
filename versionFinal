@@ -1,0 +1,239 @@
+package TrabajoFinal;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class version2 {
+    public static void main(String[] args) {
+
+        version2 cotizacion = new version2();
+
+
+
+        Scanner ingresoDatos = new Scanner(System.in);
+        System.out.println();
+        System.out.println(ANSI_BLUE+"    BIENVENIDO A TRUELOGIC!" + ANSI_RESET);
+        System.out.println("Estamos muy contentos de que hayas decidido trabajar con nosotros, ");
+        System.out.println("Por favor, ingresa tu nombre completo:");
+        String nombreUsuario = ingresoDatos.nextLine();
+        System.out.println("ingrese el nombre de la empresa o razón social:");
+        String nombreEmpresa = ingresoDatos.nextLine();
+        System.out.println("Hola " + nombreUsuario.split(" ")[0] + "!");
+        System.out.println("Tenemos el mejor talente en el mercado. Entre nuestros principales roles están: ");
+        System.out.println(ANSI_BLUE+"   (1).- Personal de Desarrollo – Nivel Senior");
+        System.out.println("   (2).- Personal de Desarrollo – Nivel Intermedio");
+        System.out.println("   (3).- Personal de Desarrollo – Nivel Junior");
+        System.out.println("   (4).- Personal de Liderazgo");
+        System.out.println("   (5).- Personal de Apoyo" + ANSI_RESET);
+        System.out.println("Para poder realizar tu cotización, por favor ingresa los datos requeridos");
+        System.out.println();
+
+        double precioDescontado1 = agregarPersonal();
+
+        System.out.println("Indique el tiempo en meses de la duración del proyecto: ");
+        int tiempoDuracion = ingresoDatos.nextInt();
+        System.out.println("Ingresa tu tipo de pago: ");
+        System.out.println(ANSI_BLUE+"   (1).- Tarjeta de Crédito");
+        System.out.println("   (2).- Al contado");
+        System.out.print(ANSI_RESET+ "Tu respuesta: ");
+        int tipoPago = ingresoDatos.nextInt();
+
+        double precioDescontado2 = descuentoDuracionProyecto(tiempoDuracion, precioDescontado1); //Contiene el precio incluyendo el descuento por tiempo de duración del proyecto
+        double descuento1 = precioDescontado1 - precioDescontado2;
+        double precioDescontado3 = descuentoTipoPago(tipoPago, precioDescontado2);
+        double descuento2 = precioDescontado2 - precioDescontado3;
+
+
+        cotizacion.imprimirCotizacion(nombreUsuario, nombreEmpresa, precioDescontado1, descuento1, descuento2, precioDescontado3);
+
+    }
+    public static double precioNeto (int rolRequerido, int cantidadPersonal) {
+        double costoRol = 0;
+
+        if (cantidadPersonal < 5) {
+            int[] costoRoles = {1500, 1200, 1000, 2000, 1000};
+            costoRol = costoRoles[rolRequerido - 1]*cantidadPersonal;
+        } else if (cantidadPersonal <10 ) {
+            int[] costoRoles2 = {1200, 900, 700,2000, 800};
+            costoRol = costoRoles2[rolRequerido - 1]*cantidadPersonal;
+        } else {
+            int [] costoRoles3 = {1000, 800, 600, 2000, 700};
+            costoRol = costoRoles3[rolRequerido - 1]*cantidadPersonal;
+        }
+        return costoRol;
+    }
+
+    public static int pedirRol () {
+        Scanner ingresoDatos = new Scanner(System.in);
+
+        System.out.println("¿Qué tipo de personal desea contratar? (Ingrese un valor del 1 al 5): ");
+
+        int rolRequerido = ingresoDatos.nextInt();
+
+
+        return rolRequerido;
+
+    }
+
+    public static int pedirCantidadPersonal () {
+        Scanner ingresoDatos = new Scanner(System.in);
+        System.out.println("¿Cuánto personal requiere?: ");
+        int cantidadPersonal = ingresoDatos.nextInt();
+
+        return  cantidadPersonal;
+    }
+
+    public static String preguntarMas () {
+        System.out.println("¿Desea contratar algún otro tipo de personal? si/no: ");
+        Scanner respuestasEscritas = new Scanner(System.in);
+        String masPersonal = respuestasEscritas.nextLine();
+
+        return masPersonal;
+    }
+
+    public static double agregarPersonal() {
+        String cargo = "",mensaje = " ";
+        double precio = 0;
+        int rolRequerido = pedirRol();
+        int cantidadPersonal = pedirCantidadPersonal();
+        double preciosSumados = precioNeto(rolRequerido, cantidadPersonal);
+
+        switch (rolRequerido){
+
+            case 1 : cargo =" Personal de Desarrollo – Nivel Senior    ";
+                break;
+            case 2: cargo = " Personal de Desarrollo – Nivel Intermedio";
+                break;
+            case 3: cargo = " Personal de Desarrollo – Nivel Junior    ";
+                break;
+            case 4: cargo = " Personal de Liderazgo                    ";
+                break;
+            case 5: cargo = " Personal de Apoyo                        ";
+                break;
+
+        }
+        mensaje = "    "+ cantidadPersonal+"       "+cargo+ "      " +  precioNeto(rolRequerido, cantidadPersonal)+ "\n";
+        //ArrayList<Integer> valores = new ArrayList<Integer>();
+        valores.add(mensaje);
+
+        //factura.put(rolRequerido, cantidadPersonal);
+
+        System.out.print("¿Desea contratar algún otro tipo de personal? si/no: ");
+        Scanner respuestasEscritas = new Scanner(System.in);
+        String masPersonal = respuestasEscritas.nextLine();
+
+        while (masPersonal.equalsIgnoreCase("Si")) {
+            rolRequerido = pedirRol();
+            cantidadPersonal = pedirCantidadPersonal();
+            switch (rolRequerido){
+
+                case 1 : cargo =" Personal de Desarrollo – Nivel Senior    ";
+                    break;
+                case 2: cargo = " Personal de Desarrollo – Nivel Intermedio";
+                    break;
+                case 3: cargo = " Personal de Desarrollo – Nivel Junior    ";
+                    break;
+                case 4: cargo = " Personal de Liderazgo                    ";
+                    break;
+                case 5: cargo = " Personal de Apoyo                         ";
+                    break;
+
+
+            }
+
+
+
+            mensaje = "   "+ cantidadPersonal+"       "+cargo+"      " + precioNeto(rolRequerido, cantidadPersonal)+ "\n";
+            preciosSumados += precioNeto(rolRequerido, cantidadPersonal);
+
+            valores.add(mensaje);
+            masPersonal = preguntarMas();
+            //factura.put(rolRequerido, cantidadPersonal);
+        }
+
+        //System.out.println(factura);
+        //System.out.println(valores);
+
+        if (masPersonal.equalsIgnoreCase("No")){
+            precio = preciosSumados;
+        }
+
+        return  precio;
+    }
+
+    public static double descuentoDuracionProyecto (int tiempoDuracion,double precioDescontado1){
+        double descuento =0;
+
+        double inicial = precioDescontado1;
+        int veces = tiempoDuracion/6;
+        if (veces >= 1) {
+            for (int i = 1; i <= veces; i++) {
+                descuento = precioDescontado1 * 0.97;
+                precioDescontado1 = descuento;
+                if (inicial - descuento > 1500) {
+                    descuento = inicial - 1500;
+                    break;
+                }
+            }
+        }else {
+            descuento=inicial*0.97;
+            return descuento;
+        }
+
+        return descuento;
+    }
+
+    public static double descuentoTipoPago (int tipoPago, double precioDescontado2){
+        double precio;
+        if (tipoPago == 2) {
+            precio = precioDescontado2*0.97;
+        } else {
+            precio = precioDescontado2;
+        }
+        return  precio;
+    }
+
+    public static ArrayList<String> valores = new ArrayList<>();
+
+
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_RESET = "\u001B[0m";
+
+
+
+    public static void imprimirCotizacion (String nombreUsuario, String nombreEmpresa, double precioDescontado1, double descuento1, double descuento2 , double precioDescontado3) {
+
+        System.out.println("Gracias por su preferencia!");
+        System.out.println();
+        System.out.println("Su cotización generada es:");
+        System.out.println();
+        System.out.println(ANSI_YELLOW_BACKGROUND);
+        System.out.println(ANSI_BLACK+ "                    COTIZACIÓN TRUELOGIC");
+        System.out.println();
+        System.out.println("                                                  Fecha: "+ LocalDate.now());
+        System.out.println();
+        System.out.println("Nombre: "+ nombreUsuario);
+        System.out.println("Empresa: "+ nombreEmpresa);
+        System.out.println();
+        System.out.println();
+        System.out.println(ANSI_RED+" Cantidad                Descripción                      Precio Total");
+        System.out.println(ANSI_BLACK+ valores );
+        System.out.println( );
+        System.out.println( );
+        System.out.println( );
+        System.out.println(ANSI_RED+"                                             Neto           " + ANSI_BLACK+precioDescontado1 );
+        System.out.println(ANSI_RED+"                                             Descuento 1    " + ANSI_BLACK+"-"+descuento1 );
+        System.out.println(ANSI_RED+"                                             Descuento 2    " + ANSI_BLACK+"-"+descuento2);
+        System.out.println(ANSI_RED+"                                             Total          " + ANSI_BLACK+precioDescontado3 );
+        System.out.println( );
+
+
+    }
+}
