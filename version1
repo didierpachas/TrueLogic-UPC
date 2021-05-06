@@ -1,0 +1,85 @@
+package programas;
+
+import java.util.Scanner;
+
+public class EjemploModulo {
+    static String[] tipoPersonal = new String[5];
+    static int[][] tabCostUnit = new int[tipoPersonal.length][3];
+    static int[][] ingresoDatos = new int[tipoPersonal.length][3];
+    static int[] costoUnitario = new int[tipoPersonal.length];
+
+    public static void main(String[] args) {
+        double cu;
+        tipoPersonal[0] = "Personal de Desarrollo – Nivel Senior";
+        tipoPersonal[1] = "Personal de Desarrollo – Nivel Intermedio";
+        tipoPersonal[2] = "Personal de Desarrollo – Nivel Junior";
+        tipoPersonal[3] = "Personal de Liderazgo";
+        tipoPersonal[4] = "Personal de Apoyo";
+
+        tabCostUnit[0][0] = 1500;
+        tabCostUnit[1][0] = 1200;
+        tabCostUnit[2][0] = 1000;
+        tabCostUnit[3][0] = 2000;
+        tabCostUnit[4][0] = 1000;
+
+        tabCostUnit[0][1] = 1200;
+        tabCostUnit[1][1] = 900;
+        tabCostUnit[2][1] = 700;
+        tabCostUnit[3][1] = 0;
+        tabCostUnit[4][1] = 800;
+
+        tabCostUnit[0][2] = 1000;
+        tabCostUnit[1][2] = 800;
+        tabCostUnit[2][2] = 600;
+        tabCostUnit[3][2] = 0;
+        tabCostUnit[4][2] = 700;
+        solicitaIngresoDatos();
+
+    }
+
+    public static void solicitaIngresoDatos() {
+        int dato = 0, c = 1;
+        System.out.println("APLICATIVO DE PRESUPUESTO TRUELOGIC");
+        do {
+            Scanner entrada = new Scanner(System.in);
+            System.out.println("Elija el tipo de personal requerido: (ingrese un número del 1 al 5)");
+            System.out.println("   (1).- Personal de Desarrollo – Nivel Senior");
+            System.out.println("   (2).- Personal de Desarrollo – Nivel Intermedio");
+            System.out.println("   (3).- Personal de Desarrollo – Nivel Junior");
+            System.out.println("   (4).- Personal de Liderazgo");
+            System.out.println("   (5).- Personal de Apoyo");
+            dato = entrada.nextInt();
+            ingresoDatos[dato - 1][0] = 1;
+            System.out.println("¿Cuantas personas requiere?");
+            ingresoDatos[dato - 1][1] = entrada.nextInt();
+            System.out.println("¿Cuantos tiempo requerirá a este personal? Indique la cantidad de meses.");
+            ingresoDatos[dato - 1][2] = entrada.nextInt();
+            System.out.println("Presione 1 para continuar y 0 para finalizar.");
+            c = entrada.nextInt();
+        } while (c == 1);
+    }
+
+    public static void costoUnitario() {
+        int suma=0;
+        for (int i = 0; i < tipoPersonal.length; i++) {
+            if (ingresoDatos[i][0] == 1) {
+                if (ingresoDatos[i][1] <= 4) {
+                    costoUnitario[i] = tabCostUnit[i][0];
+                } else {
+                    if (ingresoDatos[i][1] <= 10) {
+                        costoUnitario[i] = tabCostUnit[i][1];
+                    } else {
+                        costoUnitario[i] = tabCostUnit[i][2];
+                    }
+                }
+            }
+        }
+
+    }
+
+
+}
+
+
+
+
